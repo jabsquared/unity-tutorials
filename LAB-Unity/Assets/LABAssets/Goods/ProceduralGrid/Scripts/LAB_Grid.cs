@@ -5,7 +5,9 @@ using System.Collections;
 public class LAB_Grid : MonoBehaviour
 {
 	public int xSize, ySize;
-	
+
+	public bool willWait;
+		
 	private void Awake ()
 	{
 		StartCoroutine (Generate ());
@@ -29,8 +31,8 @@ public class LAB_Grid : MonoBehaviour
 				// Local Position of Gizmos:
 				//transform.TransformPoint (vertices [i]) = new Vector3 (x, y);
 				vertices [i] = new Vector3 (x, y);
-				
-				yield return wait;
+				if (willWait)
+					yield return wait;
 			}
 		}
 		
@@ -45,7 +47,8 @@ public class LAB_Grid : MonoBehaviour
 				triangles [ti + 4] = triangles [ti + 1] = -~vi + xSize;
 				triangles [ti + 5] = vi + xSize + 2;
 				mesh.triangles = triangles;
-				yield return wait;
+				if (willWait)
+					yield return wait;
 			}
 		}
 	}
