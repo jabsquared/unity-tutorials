@@ -36,10 +36,18 @@ public class LAB_Grid : MonoBehaviour
 		
 		mesh.vertices = vertices;
 		
-		int[] triangles = {0, -~xSize,1, 1, -~xSize,xSize + 2};
+		int[] triangles = new int[xSize * ySize * 6];
 		
-		mesh.triangles = triangles;
-		
+		for (int ti = 0, vi = 0, y = 0; y < ySize; ++y, ++vi) {
+			for (int x = 0; x < xSize; ++x, ti+=6, ++vi) {
+				triangles [ti] = vi;
+				triangles [ti + 3] = triangles [ti + 2] = -~vi;
+				triangles [ti + 4] = triangles [ti + 1] = -~vi + xSize;
+				triangles [ti + 5] = vi + xSize + 2;
+				mesh.triangles = triangles;
+				yield return wait;
+			}
+		}
 	}
 	
 	private void OnDrawGizmos ()
