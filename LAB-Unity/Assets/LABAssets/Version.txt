@@ -1,0 +1,25 @@
+###LAB Assets###
+
+Version: 0.27
+
+Descriptions:
+
+----Animations:
+	Provides Sample anims, and other stuffs
+----BasicScenes:
+	Basic Title Scenes, Provide for 4 scenes.
+----Customizations:
+	Many custom classes:
+	  LAB_Color
+	  LAB_Transform
+----Documents:
+	Nothing yet..
+
+----EasyInputs:
+	Input for:
+	  Touch-Platform: Virtual Joysticks
+	  Desktop
+
+----Funtionality:
+	Editor scripts:
+	  Auto-convert Line Endings
