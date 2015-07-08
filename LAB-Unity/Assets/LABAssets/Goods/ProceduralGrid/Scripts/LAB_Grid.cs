@@ -31,26 +31,34 @@ public class LAB_Grid : MonoBehaviour
 				// Local Position of Gizmos:
 				//transform.TransformPoint (vertices [i]) = new Vector3 (x, y);
 				vertices [i] = new Vector3 (x, y);
-				if (willWait)
+				if (willWait) {
 					yield return wait;
+				}
 			}
 		}
 		
 		mesh.vertices = vertices;
 		
 		int[] triangles = new int[xSize * ySize * 6];
-		
-		for (int ti = 0, vi = 0, y = 0; y < ySize; ++y, ++vi) {
-			for (int x = 0; x < xSize; ++x, ti+=6, ++vi) {
+		for (int ti = 0, vi = 0, y = 0; y < ySize; y++, vi++) {
+			for (int x = 0; x < xSize; x++, ti+=6, vi++) {
 				triangles [ti] = vi;
 				triangles [ti + 3] = triangles [ti + 2] = -~vi;
 				triangles [ti + 4] = triangles [ti + 1] = -~vi + xSize;
 				triangles [ti + 5] = vi + xSize + 2;
-				mesh.triangles = triangles;
-				if (willWait)
+				
+				if (willWait) {
 					yield return wait;
+					mesh.triangles = triangles;
+				}
 			}
 		}
+		
+		if (!willWait)
+			mesh.triangles = triangles;
+		
+		mesh.RecalculateNormals ();
+		
 	}
 	
 	private void OnDrawGizmos ()
@@ -65,6 +73,4 @@ public class LAB_Grid : MonoBehaviour
 			Gizmos.DrawSphere (vertices [i], 0.1f);
 		}
 	}
-	
-	
 }
