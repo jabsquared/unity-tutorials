@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: be66986effd141b4992d2d78be127139
 ModelImporter:
-  serializedVersion: 16
+  serializedVersion: 18
   fileIDToRecycleName:
     100000: Ctrl_Grp
     100002: Head
@@ -94,6 +94,10 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 1
     motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
@@ -127,23 +131,13 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
+      - path: Zombunny
+        weight: 1
       - path: Ctrl_Grp
         weight: 1
       - path: Ctrl_Grp/Root
         weight: 1
       - path: Ctrl_Grp/Root/Hips
-        weight: 1
-      - path: Ctrl_Grp/Root/Hips/LeftLeg
-        weight: 1
-      - path: Ctrl_Grp/Root/Hips/LeftLeg/LeftFoot
-        weight: 1
-      - path: Ctrl_Grp/Root/Hips/LeftLeg/LeftFoot/LeftFootEnd
-        weight: 1
-      - path: Ctrl_Grp/Root/Hips/RightLeg
-        weight: 1
-      - path: Ctrl_Grp/Root/Hips/RightLeg/RightFoot
-        weight: 1
-      - path: Ctrl_Grp/Root/Hips/RightLeg/RightFoot/RightFootEnd
         weight: 1
       - path: Ctrl_Grp/Root/Hips/Spine
         weight: 1
@@ -199,7 +193,17 @@ ModelImporter:
         weight: 1
       - path: Ctrl_Grp/Root/Hips/Spine/RightUpperArmIK/RightLowerArmIK/RightWristIK
         weight: 1
-      - path: Zombunny
+      - path: Ctrl_Grp/Root/Hips/LeftLeg
+        weight: 1
+      - path: Ctrl_Grp/Root/Hips/LeftLeg/LeftFoot
+        weight: 1
+      - path: Ctrl_Grp/Root/Hips/LeftLeg/LeftFoot/LeftFootEnd
+        weight: 1
+      - path: Ctrl_Grp/Root/Hips/RightLeg
+        weight: 1
+      - path: Ctrl_Grp/Root/Hips/RightLeg/RightFoot
+        weight: 1
+      - path: Ctrl_Grp/Root/Hips/RightLeg/RightFoot/RightFootEnd
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
@@ -425,11 +429,13 @@ ModelImporter:
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
+    keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
+    useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
@@ -452,3 +458,5 @@ ModelImporter:
   animationType: 2
   additionalBone: 0
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

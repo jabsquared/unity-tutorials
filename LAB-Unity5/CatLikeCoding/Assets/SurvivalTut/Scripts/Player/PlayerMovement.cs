@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 		RaycastHit floorHit;
 		
 		if (Physics.Raycast (camRay, out floorHit, camRayLength, floorMask)) {
+			Debug.Log ("Ray hit!");
 			Vector3 playerToMouse = floorHit.point - transform.position;
 			
 			playerToMouse.y = 0f;
@@ -53,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
 			Quaternion newRotation = Quaternion.LookRotation (playerToMouse);
 			
 			playerRigidbody.MoveRotation (newRotation);
+		} else {
+			Debug.Log ("Ray Doesn't hit!");			
 		}
 	}
 	
