@@ -265,7 +265,7 @@ MonoBehaviour:
   ySize: 9
   zSize: 9
   vertexWillWait: 0
-  triangleWillWait: 1
+  triangleWillWait: 0
 --- !u!4 &1956258884
 Transform:
   m_ObjectHideFlags: 0

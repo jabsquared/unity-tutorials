@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof(MeshFilter), typeof(MeshRenderer))]
@@ -67,9 +67,19 @@ public class LABCube : MonoBehaviour
 		}
 		t = SetQuad (triangles, t, v, -~v, ~-v + ring, v + 2);
 		
-		int vMin = ring * (ySize);
+		int vMin = ring * (-~ySize);
+		
 		int vMid = -~vMin;
-		t = SetQuad (triangles, t, vMin, vMid, vMin - 1, vMid + xSize * 2 - 2);
+		
+		int vMax = v + 2;
+		for (int z =1; z<zSize -1; z++,vMin--,vMid++,vMax++) {
+			t = SetQuad (triangles, t, vMin, vMid, vMin - 1, vMid + ~-xSize * 2);
+			for (int x=1; x<~-xSize; ++x,++vMid) {
+				t = SetQuad (triangles, t, vMid, vMid + 1, vMid + xSize - 1, vMid + xSize);
+			}
+		
+			t = SetQuad (triangles, t, vMid, vMax, vMid + xSize - 1, vMax + 1);
+		}
 		return t;
 	}
 	
