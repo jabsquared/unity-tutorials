@@ -82,7 +82,7 @@ public class LABGrid : MonoBehaviour
 		Gizmos.color = Color.black;
 		
 		for (int i= 0; i < vertices.Length; ++i) {
-			Gizmos.DrawSphere (transform.TransformPoint (vertices [i]), 0.1f);
+			Gizmos.DrawSphere (transform.TransformPoint (vertices [i]), 0.09f);
 		}
 	}
 }

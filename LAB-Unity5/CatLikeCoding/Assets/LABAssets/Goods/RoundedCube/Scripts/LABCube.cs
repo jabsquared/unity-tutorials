@@ -8,6 +8,8 @@ public class LABCube : MonoBehaviour
 		
 	public bool vertexWillWait;
 	
+	public bool triangleWillWait;
+	
 	private Mesh mesh;
 	
 	private Vector3[] vertices;
@@ -35,16 +37,40 @@ public class LABCube : MonoBehaviour
 		int[] triangles = new int[quads * 6];
 		
 		int ring = (xSize + zSize) * 2;
-		int t = 0, v = 0;
-		for (int y =0; y<ySize; ++y,++v) {
-			for (int q = 0; q<ring; ++q,++v) {
+		int t = 0, v = 1;
+		for (int y = 0; y<ySize; ++y,++v) {
+			for (int q = 0; q<~-ring; ++q,++v) {
 				t = SetQuad (triangles, t, v, -~v, v + ring, -~v + ring);
-			
+				if (triangleWillWait) {
+					yield return wait;
+				}
 				mesh.triangles = triangles;
-			
+			}
+			t = SetQuad (triangles, t, v, -~v - ring, v + ring, -~v);
+			if (triangleWillWait) {
 				yield return wait;
 			}
+			mesh.triangles = triangles;
 		}
+		
+		t = CreateTopFace (triangles, t, ring);
+		mesh.triangles = triangles;
+		
+	}
+
+	private int CreateTopFace (int[] triangles, int t, int ring)
+	{
+		int v = ring * ySize;
+		
+		for (int x=0; x<xSize; ++x,++v) {
+			t = SetQuad (triangles, t, v, -~v, ~-v + ring, v + ring);
+		}
+		t = SetQuad (triangles, t, v, -~v, ~-v + ring, v + 2);
+		
+		int vMin = ring * (ySize);
+		int vMid = -~vMin;
+		t = SetQuad (triangles, t, vMin, vMid, vMin - 1, vMid + xSize * 2 - 2);
+		return t;
 	}
 	
 	private static int SetQuad (int[] triangles, int i, int v00, int v10, int v01, int v11)
@@ -61,7 +87,7 @@ public class LABCube : MonoBehaviour
 		WaitForSeconds wait = new WaitForSeconds (0.045f);
 		
 		int cornerVertices = 8;
-		int edgeVertices = (xSize + ySize + zSize - 3) * 4;
+		int edgeVertices = (xSize + ySize + zSize) * 4;
 		int faceVertices = (
 			(~-xSize) * (~-ySize) +
 			(~-xSize) * (~-zSize) +
@@ -70,7 +96,7 @@ public class LABCube : MonoBehaviour
 		vertices = new Vector3[cornerVertices + edgeVertices + faceVertices];
 		
 		int v = 0;
-		for (int y = 0; y<ySize; ++y) {
+		for (int y = 0; y<=ySize; ++y) {
 			for (int x=0; x <= xSize; ++x) {
 				vertices [++v] = new Vector3 (x, y, 0);
 				if (vertexWillWait) {
@@ -100,11 +126,16 @@ public class LABCube : MonoBehaviour
 		
 		for (int z =1; z<zSize; ++z) {
 			for (int x = 1; x<xSize; ++x) {
-				vertices [++v] = new Vector3 (x, ~-ySize, z);
+				vertices [++v] = new Vector3 (x, ySize, z);
 				if (vertexWillWait) {
 					yield return wait;
 				}
+			}
+			for (int x = 1; x<xSize; ++x) {
 				vertices [++v] = new Vector3 (x, 0, z);
+				if (vertexWillWait) {
+					yield return wait;
+				}
 			}
 		}
 		
@@ -119,7 +150,7 @@ public class LABCube : MonoBehaviour
 		Gizmos.color = Color.black;
 		
 		for (int i =0; i< vertices.Length; ++i) {
-			Gizmos.DrawSphere (vertices [i], 0.09f);
+			Gizmos.DrawSphere (transform.TransformPoint (vertices [i]), 0.09f);
 		}
 			
 	}
