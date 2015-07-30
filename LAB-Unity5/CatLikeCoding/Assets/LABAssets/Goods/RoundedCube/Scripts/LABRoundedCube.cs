@@ -35,31 +35,43 @@ public class LABRoundedCube : MonoBehaviour
 	{
 		WaitForSeconds wait = new WaitForSeconds (0.045f);
 		
+		int[] trianglesZ = new int[(xSize * ySize) * 12];
+		int[] trianglesX = new int[(ySize * zSize) * 12];
+		int[] trianglesY = new int[(xSize * zSize) * 12];
+
 		int quads = (xSize * ySize + xSize * zSize + ySize * zSize) * 2;
-		int[] triangles = new int[quads * 6];
 		
 		int ring = (xSize + zSize) * 2;
-		int t = 0, v = 0;
+		
+		int tZ = 0, tX = 0, tY = 0, v = 0;
 		
 		for (int y = 0; y < ySize; ++y, v++) {
-			for (int q = 0; q < ~-ring; ++q, v++) {
-				t = SetQuad (triangles, t, v, -~v, v + ring, -~v + ring);
-				if (triangleWillWait) {
-					yield return wait;
-				}
-				mesh.triangles = triangles;
+			for (int q = 0; q < xSize; ++q, v++) {
+				tZ = SetQuad (trianglesZ, tZ, v, -~v, v + ring, -~v + ring);
 			}
-			t = SetQuad (triangles, t, v, -~v - ring, v + ring, -~v);
+			for (int q = 0; q < zSize; ++q, v++) {
+				tX = SetQuad (trianglesX, tX, v, -~v, v + ring, -~v + ring);
+			}
+			for (int q = 0; q < xSize; ++q, v++) {
+				tZ = SetQuad (trianglesZ, tZ, v, -~v, v + ring, -~v + ring);
+			}
+			for (int q = 0; q < ~-zSize; ++q, v++) {
+				tX = SetQuad (trianglesX, tX, v, -~v, v + ring, -~v + ring);
+			}
+			
+			tX = SetQuad (trianglesX, tX, v, -~v - ring, v + ring, -~v);
 			if (triangleWillWait) {
 				yield return wait;
 			}
-			mesh.triangles = triangles;
 		}
 		
-		t = CreateTopFace (triangles, t, ring);
-		t = CreateBottomFace (triangles, t, ring);
+		tY = CreateTopFace (trianglesY, tY, ring);
+		tY = CreateBottomFace (trianglesY, tY, ring);
 		
-		mesh.triangles = triangles;
+		mesh.subMeshCount = 3;
+		mesh.SetTriangles (trianglesZ, 0);
+		mesh.SetTriangles (trianglesX, 1);
+		mesh.SetTriangles (trianglesY, 2);
 		
 	}
 
@@ -210,6 +222,18 @@ public class LABRoundedCube : MonoBehaviour
 			inner.x = roundness;
 		} else if (x > xSize - roundness) {
 			inner.x = xSize - roundness;
+		}
+		
+		if (y < roundness) {
+			inner.y = roundness;
+		} else if (y > ySize - roundness) {
+			inner.y = ySize - roundness;
+		}
+		
+		if (z < roundness) {
+			inner.z = roundness;
+		} else if (z > zSize - roundness) {
+			inner.z = zSize - roundness;
 		}
 		
 		normals [i] = (vertices [i] - inner).normalized;
