@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: CubeMaterial 1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: bdb4894edbb64f147bf691020edcfc21, type: 3}
   m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -102,7 +102,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: .579999983
       data:
         first:
           name: _BumpScale
@@ -126,7 +126,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0
+        second: .400000006
       data:
         first:
           name: _EmissionScaleUI

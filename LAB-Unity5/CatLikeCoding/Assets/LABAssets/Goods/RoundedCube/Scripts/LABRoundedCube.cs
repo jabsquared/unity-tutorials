@@ -29,7 +29,43 @@ public class LABRoundedCube : MonoBehaviour
 		yield return StartCoroutine (CreateVertices ());
 		
 		yield return StartCoroutine (CreateTriangles ());
+		
+		CreateColliders ();
 	}
+	
+	private void CreateColliders ()
+	{
+		AddBoxCollider (xSize, ySize - roundness * 2, zSize - roundness * 2);
+		AddBoxCollider (xSize - roundness * 2, ySize, zSize - roundness * 2);
+		AddBoxCollider (xSize - roundness * 2, ySize - roundness * 2, zSize);
+		
+		Vector3 min = Vector3.one * roundness;
+		
+		Vector3 half = new Vector3 (xSize, ySize, zSize) * 0.5f;
+		
+		Vector3 max = new Vector3 (xSize, ySize, zSize) - min;
+		
+		AddCapsuleCollider (0, half.x, min.y, min.z);
+		AddCapsuleCollider (0, half.x, min.y, min.z);
+		AddCapsuleCollider (0, half.x, min.y, min.z);
+		AddCapsuleCollider (0, half.x, min.y, min.z);
+	}
+	
+	private void AddBoxCollider (float x, float y, float z)
+	{
+		BoxCollider c = gameObject.AddComponent<BoxCollider> ();
+		c.size = new Vector3 (x, y, z);
+	}
+	
+	private void AddCapsuleCollider (int direction, float x, float y, float z)
+	{
+		CapsuleCollider c = gameObject.AddComponent<CapsuleCollider> ();
+		c.center = new Vector3 (x, y, z);
+		c.direction = direction;
+		c.radius = roundness;
+		c.height = c.center [direction] * 2f;
+	}
+	
 	
 	private IEnumerator CreateTriangles ()
 	{
@@ -74,7 +110,9 @@ public class LABRoundedCube : MonoBehaviour
 		mesh.SetTriangles (trianglesY, 2);
 		
 	}
-
+	
+	
+	
 	private int CreateTopFace (int[] triangles, int t, int ring)
 	{
 		int v = ring * ySize;
@@ -153,6 +191,8 @@ public class LABRoundedCube : MonoBehaviour
 	
 	private Vector3[] normals;
 	
+	private Color32[] cubeUV;
+	
 	private IEnumerator CreateVertices ()
 	{
 		WaitForSeconds wait = new WaitForSeconds (0.045f);
@@ -166,6 +206,8 @@ public class LABRoundedCube : MonoBehaviour
 		
 		vertices = new Vector3[cornerVertices + edgeVertices + faceVertices];
 		normals = new Vector3[vertices.Length];
+		cubeUV = new Color32[vertices.Length];
+		
 		
 		int v = 0;
 		for (int y = 0; y<=ySize; ++y) {
@@ -212,6 +254,7 @@ public class LABRoundedCube : MonoBehaviour
 		}
 		mesh.vertices = vertices;
 		mesh.normals = normals;
+		mesh.colors32 = cubeUV;
 	}
 	
 	private void SetVertex (int i, int x, int y, int z)
@@ -238,6 +281,7 @@ public class LABRoundedCube : MonoBehaviour
 		
 		normals [i] = (vertices [i] - inner).normalized;
 		vertices [i] = inner + normals [i] * roundness;
+		cubeUV [i] = new Color32 ((byte)x, (byte)y, (byte)z, 0);
 	}
 	
 	private void OnDrawGizmos ()
