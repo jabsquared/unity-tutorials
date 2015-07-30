@@ -206,8 +206,13 @@ public class LABRoundedCube : MonoBehaviour
 	{
 		Vector3 inner = vertices [i] = new Vector3 (x, y, z);
 		
-		normals [i] = (vertices [i] - inner).normalized;
+		if (x < roundness) {
+			inner.x = roundness;
+		} else if (x > xSize - roundness) {
+			inner.x = xSize - roundness;
+		}
 		
+		normals [i] = (vertices [i] - inner).normalized;
 		vertices [i] = inner + normals [i] * roundness;
 	}
 	
@@ -227,7 +232,7 @@ public class LABRoundedCube : MonoBehaviour
 			
 			Gizmos.color = Color.yellow;
 			
-			Gizmos.DrawRay (vertices [i], normals [i]);
+			Gizmos.DrawRay (transform.TransformPoint (vertices [i]), normals [i]);
 		}	
 	}
 }
