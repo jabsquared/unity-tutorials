@@ -46,9 +46,19 @@ public class LABRoundedCube : MonoBehaviour
 		Vector3 max = new Vector3 (xSize, ySize, zSize) - min;
 		
 		AddCapsuleCollider (0, half.x, min.y, min.z);
-		AddCapsuleCollider (0, half.x, min.y, min.z);
-		AddCapsuleCollider (0, half.x, min.y, min.z);
-		AddCapsuleCollider (0, half.x, min.y, min.z);
+		AddCapsuleCollider (0, half.x, min.y, max.z);
+		AddCapsuleCollider (0, half.x, max.y, min.z);
+		AddCapsuleCollider (0, half.x, max.y, max.z);
+		
+		AddCapsuleCollider (1, min.x, half.y, min.z);
+		AddCapsuleCollider (1, min.x, half.y, max.z);
+		AddCapsuleCollider (1, max.x, half.y, min.z);
+		AddCapsuleCollider (1, max.x, half.y, max.z);
+		
+		AddCapsuleCollider (2, min.x, min.y, half.z);
+		AddCapsuleCollider (2, min.x, max.y, half.z);
+		AddCapsuleCollider (2, max.x, min.y, half.z);
+		AddCapsuleCollider (2, max.x, max.y, half.z);
 	}
 	
 	private void AddBoxCollider (float x, float y, float z)
